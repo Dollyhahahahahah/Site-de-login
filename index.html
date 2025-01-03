@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Login</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden; /* Evita rolagem */
+        }
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                red,
+                red 50%,
+                white 50%,
+                white 100%
+            );
+            z-index: -1; /* Coloca o fundo atrás do conteúdo */
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: red;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .link span {
+            color: black; /* Cor preta para o texto padrão */
+        }
+        .link .login {
+            color: blue; /* Cor azul apenas para a palavra "faça login" */
+            cursor: pointer; /* Muda o cursor para indicar que é clicável */
+        }
+        .message {
+            text-align: center;
+            color: green; /* Cor verde para mensagens de sucesso */
+            margin-top: 10px;
+        }
+        .error {
+            text-align: center;
+            color: red; /* Cor vermelha para mensagens de erro */
+            margin-top: 10px;
+        }
+        .toggle-password {
+            cursor: pointer;
+            color: blue; /* Cor azul para o texto "ver senha" */
+            font-size: 0.9em;
+            margin-top: -5px;
+            display: block;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container" id="formContainer">
+        <h2 id="formTitle">Registrar</h2>
+        <form id="userForm">
+            <input type="text" id="email" placeholder="E-mail" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <span class="toggle-password" id="togglePassword">Ver senha</span>
+            <button type="submit">Registrar</button>
+        </form>
+        <div class="link">
+            <span>Já tem uma conta? <span class="login" onclick="toggleForms()">faça login</span></span>
+        </div>
+        <div class="message" id="message"></div>
+        <div class="error" id="error"></div>
+    </div>
+
+    <script>
+        const users = [];
+        const userForm = document.getElementById('userForm');
+        const formTitle = document.getElementById('formTitle');
+        const messageDiv = document.getElementById('message');
+        const errorDiv = document.getElementById('error');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const emailInput = document.getElementById('email');
+
+        // Carregar e-mail e senha do localStorage, se existirem
+        window.onload = function() {
+            const savedEmail = localStorage.getItem('email');
+            const savedPassword = localStorage.getItem('password');
+            if (savedEmail) {
+                emailInput.value = savedEmail;
+            }
+            if (savedPassword) {
+                passwordInput.value = savedPassword;
+            }
+        };
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? 'Ver senha' : 'Ocultar senha';
+        });
+
+        userForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            // Simulação de registro de usuário
+            users.push({ email, password });
+            localStorage.setItem('email', email);
+            localStorage.setItem('password', password);
+            messageDiv.textContent = 'Registro bem-sucedido! Redirecionando...';
+
+            // Redirecionar após 2 segundos
+            setTimeout(() => {
+                window.location.href = 'https://dollyhahahahahah.github.io/Clique-Para-Youtube/';
+            }, 2000);
+        });
+
+        function toggleForms() {
+            const isRegistering = formTitle.textContent === 'Registrar';
+            formTitle.textContent = isRegistering ? 'Login' : 'Registrar';
+            userForm.reset();
+            messageDiv.textContent = '';
+            errorDiv.textContent = '';
+        }
+    </script>
+</body>
+</html>
